@@ -1,2 +1,31 @@
-somefeature,anotherfeature,f3,f4,f5,f6,f7,lastfeature
-0,0,0,1,1,2,4,5
+Data Science
+	Numpy
+	Scipy
+	Pandas
+	MatplotLib
+	IPython
+
+Machine Learning
+	Scikit Learn
+	Theano
+	TensorFlow
+	Keras
+
+Data mining + Neural Networks
+	Scrapy
+	NLTK
+	Pattern
+	Pybrain
+	Gensim
+
+Plotting nad Visualizations
+	Seaborn
+	Bokeh
+	Basemap
+	NetworkX
+
+Webserivces
+	Requests
+	Flask
+	Django
+	Pymongo
