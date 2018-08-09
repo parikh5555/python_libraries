@@ -1,3 +1,13 @@
+## simple linear regression a single independent variable
+## is used to predict the value of a dependent variable.
+## 10 persons height and weight combinations are given
+## Linear regration helps to predict 11th person weight from height
+## Y = mX + C where m = Slope, C = Initial condition
+## This formula is for understading the concepet
+## let x1 = mean(x) = sum(x[i])/len(x) and y1 = mean(y) = sum(y[i])/len(y)
+## Slope m = sum((x1-x[i])(y1-y[i])) /sum(x1-x[i])^2 For i in range (0,len(x))
+## Initital condition C = y1 - m * x1
+
 from sklearn import linear_model
 import numpy as np
 import matplotlib.pyplot as plt
