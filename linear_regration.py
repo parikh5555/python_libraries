@@ -12,6 +12,10 @@ from sklearn import linear_model
 import numpy as np
 import matplotlib.pyplot as plt
 
+def mean(numbers):
+    return float(sum(abs(numbers))) / max(len(numbers), 1)
+
+
 height = np.array([[4.0],[4.5],[5.0],[5.2],[5.4],[5.8],[6.1],[6.2],[6.4],[6.8]])
 weight = np.array([42 ,  44 , 49, 55  , 53  , 58   , 60  , 64  ,  66 ,  69])
 
@@ -25,6 +29,17 @@ reg = linear_model.LinearRegression()
 
 # Train the model using the training sets
 reg.fit(height,weight)
+
+mean_actual_height = mean(height)
+mean_actual_weight = mean(weight)
+
+##m1 =0
+##for i in range (0,len(height)):
+##    m1 = m1 + (abs(mean_actual_height - height[i][0])*abs((mean_actual_weight - weight[i])))/(sum((mean_actual_height - height)**2))
+##print "calculated slope" ,m1
+##c1 = mean_actual_weight - (m1 * mean_actual_height)
+##print "calculated initial condition", c1
+
 
 #the coefficients 
 m=reg.coef_[0] # Slope
@@ -56,10 +71,18 @@ predicated_values_output_weight =  np.zeros(4)
 predicted_values_output_weight = (m * predicated_values_input_height )+c
 print "Prediction results", predicted_values_output_weight
 
+mean_predicted_weight = np.mean(predicted_values_output_weight)
+
 error_in_prediction = np.zeros(4)
 for i in range (0,len(predicted_values_output_weight)):
     error_in_prediction[i] = actual_weight[i]-predicted_values_output_weight[i][0]
 print "Error in prediction", error_in_prediction
+
+relative_diffrence = 0
+squared_relative_diffrence = 0
+for i in range (0,len(predicted_values_output_weight)):
+    relative_diffrence = relative_diffrence + abs(predicted_values_output_weight[i][0] - mean_predicted_weight)
+    squared_relative_diffrence = squared_relative_diffrence + ((predicted_values_output_weight[i][0] - mean_predicted_weight)**2)
 
 ## Mean absoulute error = Mean(abs(error))
 ## Mean Square error = Mean(square(error)) -> Increase exponantially
@@ -68,13 +91,21 @@ print "Error in prediction", error_in_prediction
 ## Relative absolute error = Sum(error)/sum(Y(predicted)-Y'(mean))
 ## Relative sqaure error = sum(squre(error))/sum(squre(Y(predicted)-Y'(mean)))
 ## R = root(1 - Relative sqaure error) -> gives how close data point to predicted value
-mean_abs_err = (1.0/len(error_in_prediction))*(sum(abs(error_in_prediction)))
+
+mean_abs_err = mean(error_in_prediction)
 print mean_abs_err, "MAE"
 
-mean_sqaure_error = (1.0/len(error_in_prediction))*(sum(error_in_prediction*error_in_prediction))
+mean_sqaure_error = mean(error_in_prediction * error_in_prediction)
 print mean_sqaure_error, "MSE"
 
-root_mean_square_error = mean_square_error**(0.5)
+root_mean_square_error = mean_sqaure_error**(0.5)
 print root_mean_square_error, "RMSE"
 
+relative_absolute_error = sum(abs(error_in_prediction))/(relative_diffrence)
+print relative_absolute_error, "RAE"
 
+relative_squared_error = sum((error_in_prediction)**2)/(squared_relative_diffrence)
+print relative_squared_error, "RSE"
+
+relative_accuracy = 1 - relative_squared_error
+print relative_accuracy , "R"
