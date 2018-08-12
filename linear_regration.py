@@ -8,7 +8,7 @@
 ## Slope m = sum((x1-x[i])(y1-y[i])) /sum(x1-x[i])^2 For i in range (0,len(x))
 ## Initital condition C = y1 - m*x1
 
-from sklearn import linear_model
+from sklearn import linear_model, metrics
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -71,18 +71,6 @@ predicated_values_output_weight =  np.zeros(4)
 predicted_values_output_weight = (m * predicated_values_input_height )+c
 print "Prediction results", predicted_values_output_weight
 
-mean_predicted_weight = np.mean(predicted_values_output_weight)
-
-error_in_prediction = np.zeros(4)
-for i in range (0,len(predicted_values_output_weight)):
-    error_in_prediction[i] = actual_weight[i]-predicted_values_output_weight[i][0]
-print "Error in prediction", error_in_prediction
-
-relative_diffrence = 0
-squared_relative_diffrence = 0
-for i in range (0,len(predicted_values_output_weight)):
-    relative_diffrence = relative_diffrence + abs(predicted_values_output_weight[i][0] - mean_predicted_weight)
-    squared_relative_diffrence = squared_relative_diffrence + ((predicted_values_output_weight[i][0] - mean_predicted_weight)**2)
 
 ## Mean absoulute error = Mean(abs(error))
 ## Mean Square error = Mean(square(error)) -> Increase exponantially
@@ -92,20 +80,56 @@ for i in range (0,len(predicted_values_output_weight)):
 ## Relative sqaure error = sum(squre(error))/sum(squre(Y(predicted)-Y'(mean)))
 ## R = root(1 - Relative sqaure error) -> gives how close data point to predicted value
 
-mean_abs_err = mean(error_in_prediction)
-print mean_abs_err, "MAE"
+def skikit_learn():
 
-mean_sqaure_error = mean(error_in_prediction * error_in_prediction)
-print mean_sqaure_error, "MSE"
+    MAE = metrics.mean_absolute_error(actual_weight,predicted_values_output_weight)
+    print  MAE, "MAE"
 
-root_mean_square_error = mean_sqaure_error**(0.5)
-print root_mean_square_error, "RMSE"
+    MSE = metrics.mean_squared_error(actual_weight,predicted_values_output_weight)
+    print MSE, "MSE"
 
-relative_absolute_error = sum(abs(error_in_prediction))/(relative_diffrence)
-print relative_absolute_error, "RAE"
+    RMSE = MSE**(0.5)
+    print RMSE, "RMSE"
 
-relative_squared_error = sum((error_in_prediction)**2)/(squared_relative_diffrence)
-print relative_squared_error, "RSE"
+    RAE = metrics.median_absolute_error(actual_weight,predicted_values_output_weight)
+    print RAE, "RMAE"
 
-relative_accuracy = 1 - relative_squared_error
-print relative_accuracy , "R"
+
+
+def pure_python():
+
+    mean_predicted_weight = np.mean(predicted_values_output_weight)
+
+    error_in_prediction = np.zeros(4)
+    for i in range (0,len(predicted_values_output_weight)):
+        error_in_prediction[i] = actual_weight[i]-predicted_values_output_weight[i][0]
+    print "Error in prediction", error_in_prediction
+
+    relative_diffrence = 0
+    squared_relative_diffrence = 0
+    for i in range (0,len(predicted_values_output_weight)):
+        relative_diffrence = relative_diffrence + abs(predicted_values_output_weight[i][0] - mean_predicted_weight)
+        squared_relative_diffrence = squared_relative_diffrence + ((predicted_values_output_weight[i][0] - mean_predicted_weight)**2)
+
+
+    mean_abs_err = mean(error_in_prediction)
+    print mean_abs_err, "MAE"
+
+    mean_sqaure_error = mean(error_in_prediction * error_in_prediction)
+    print mean_sqaure_error, "MSE"
+
+    root_mean_square_error = mean_sqaure_error**(0.5)
+    print root_mean_square_error, "RMSE"
+
+    relative_absolute_error = sum(abs(error_in_prediction))/(relative_diffrence)
+    print relative_absolute_error, "RAE"
+
+
+    relative_squared_error = sum((error_in_prediction)**2)/(squared_relative_diffrence)
+    print relative_squared_error, "RSE"
+
+    relative_accuracy = 1 - relative_squared_error
+    print relative_accuracy , "R"
+
+pure_python()
+skikit_learn()
