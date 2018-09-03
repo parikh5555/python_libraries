@@ -7,11 +7,15 @@ count = 0
 def readfromcsv():
 
     rf = pd.read_csv('csvfile.csv', index_col = False, header = 0)
-    print rf
-    print rf.values
+    #print rf
+    #print rf.values
 
     rf = rf.fillna(0)
-    print rf
+    #print rf
+
+    #print rf.head()  #prints first five rows of dataset
+    #print rf.describe() #prints mean, min, max, count of dataset
+
 
 ##for i in range(0,len(rf.values)):
 ##    for j in range(0,len(rf.values[0])):
@@ -47,8 +51,8 @@ def dataframe():
 ##    data = {'Age':[10,12,13],'Name':['Alex','Bob','Clarke']}
 ##    df = pd.DataFrame(data)
 ##    print df
-    #df = pd.DataFrame(data,columns=['Name','Age'],dtype=float) #data type float
+    df = pd.DataFrame(data,columns=['Name','Age'],dtype=float) #data type float
     #df = pd.DataFrame(data, index=['rank1','rank2','rank3']) #Indexed data frames
-
+    print data
     print df
 dataframe()

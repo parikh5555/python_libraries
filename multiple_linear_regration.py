@@ -6,6 +6,7 @@
 ## This formula is for understading the concepet
 ## 
 
+
 import pandas as pd  
 import numpy as np  
 import matplotlib.pyplot as plt
